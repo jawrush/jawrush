@@ -1,25 +1,182 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RTech Labs | Electronics & Tutorials</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #1a1a1a; color: white; font-family: sans-serif; text-align: center; }
-        .banner { width: 100%; max-width: 800px; margin-top: 20px; }
-        .nav { margin: 20px; border-bottom: 2px solid #ff9900; padding-bottom: 10px; }
-        .nav a { color: #ffb347; margin: 0 15px; text-decoration: none; font-weight: bold; }
-        h1 { color: #ff9900; }
-        .content { padding: 50px; }
+        :root {
+            --brand-orange: linear-gradient(90deg, #FF8C00, #FFB347);
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-gray: #b0b0b0;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Header & Banner */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .banner-img {
+            max-width: 600px;
+            width: 100%;
+            border-radius: 8px;
+            /* Update the filename below to your actual image name */
+            content: url('rtech-banner.png'); 
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #FF8C00;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: var(--brand-orange);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Project Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #333;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #FF8C00;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #FFB347;
+        }
+
+        .card p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--brand-orange);
+            color: black;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 0.8rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #555;
+            font-size: 0.8rem;
+            border-top: 1px solid #222;
+        }
     </style>
 </head>
 <body>
-    <img src="your-banner-name.png" class="banner" alt="RTech Labs">
-    <div class="nav">
-    <a href="index.html">Home</a> | 
-    <a href="about.html">About the Lab</a> | 
+
+<header>
+    <div class="banner-img"></div>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
     <a href="#">Projects</a>
+    <a href="#">Tutorials</a>
+</nav>
+
+<div class="container">
+    <section class="hero">
+        <h1>Engineering the Future</h1>
+        <p>Expert tutorials in electronics, microcontrollers, and DIY engineering.</p>
+    </section>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Arduino Basics</h3>
+            <p>Master the fundamentals of microcontrollers with our step-by-step beginner series.</p>
+            <a href="#" class="btn">Learn More</a>
+        </div>
+
+        <div class="card">
+            <h3>PCB Design</h3>
+            <p>From breadboard to professional circuit boards. Learn KiCad and EasyEDA.</p>
+            <a href="#" class="btn">Watch Tutorial</a>
+        </div>
+
+        <div class="card">
+            <h3>IoT Systems</h3>
+            <p>Connecting sensors to the cloud using ESP32 and MQTT protocols.</p>
+            <a href="#" class="btn">Explore Lab</a>
+        </div>
     </div>
-        <h1>Welcome to the Lab</h1>
-        <p>Latest project documentation coming soon!</p>
-    </div>
+</div>
+
+<footer>
+    &copy; 2026 RTech Labs. Built for the engineering community.
+</footer>
+
 </body>
 </html>
