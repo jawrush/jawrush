@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Title | RTech Labs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-gradient: linear-gradient(90deg, #FF8C00, #FFB347);
+            --dark-bg: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --text-main: #ffffff;
+            --text-dim: #b0b0b0;
+            --code-bg: #2d2d2d;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        /* NAVIGATION (Same as others) */
+        nav {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: white; font-weight: 800; }
+        .nav-logo img { height: 35px; }
+        .nav-links a { color: var(--text-dim); text-decoration: none; margin-left: 25px; font-weight: 600; font-size: 0.9rem; }
+
+        /* PROJECT LAYOUT */
+        .project-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .project-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .meta-info {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* VIDEO EMBED */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #000;
+            margin-bottom: 40px;
+            border: 1px solid #333;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* CONTENT SECTIONS */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #FFB347;
+            border-left: 4px solid #FF8C00;
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+
+        .bill-of-materials {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #222;
+        }
+
+        /* CODE BLOCK */
+        pre {
+            background: var(--code-bg);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #444;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #e0e0e0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid #222;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="nav-logo">
+        <img src="logo.png" alt="RT"> 
+        <span>RTech Labs</span>
+    </a>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="#">Projects</a>
+    </div>
+</nav>
+
+<article class="project-container">
+    <div class="project-header">
+        <div class="meta-info">Tutorial • ESP32 • IoT</div>
+        <h1>Project Title: Smart Home Hub</h1>
+    </div>
+
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div class="section">
+        <h2>Overview</h2>
+        <p>This project demonstrates how to build a custom IoT gateway using the ESP32. We will cover schematic design, sensors integration, and connecting to a mobile dashboard.</p>
+    </div>
+
+    <div class="section">
+        <h2>Bill of Materials</h2>
+        <div class="bill-of-materials">
+            <ul>
+                <li>ESP32 Development Board</li>
+                <li>DHT22 Temperature Sensor</li>
+                <li>0.96" OLED Display (I2C)</li>
+                <li>Custom RTech PCB</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>The Code</h2>
+        <p>Upload the following sketch to your microcontroller using the Arduino IDE:</p>
+        <pre>
+void setup() {
+  Serial.begin(115200);
+  Serial.println("RTech Labs Project Initialized...");
+}
+
+void loop() {
+  // Your logic here
+}</pre>
+    </div>
+</article>
+
+<footer>
+    &copy; 2026 RTech Labs. Technical Documentation.
+</footer>
+
+</body>
+</html>
