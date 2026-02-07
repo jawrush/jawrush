@@ -1,1 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | RTech Labs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Shared Styles with Homepage */
+        :root {
+            --brand-gradient: linear-gradient(90deg, #FF8C00, #FFB347);
+            --dark-bg: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --text-main: #ffffff;
+            --text-dim: #b0b0b0;
+        }
 
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+        }
+
+        /* NAVIGATION BAR (Same as Index) */
+        nav {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .nav-logo img { height: 35px; width: auto; }
+
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover { color: #FF8C00; }
+
+        /* ABOUT CONTENT SECTION */
+        .container {
+            max-width: 800px; /* Narrower for better reading */
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .lead {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            margin-bottom: 40px;
+            border-left: 4px solid #FF8C00;
+            padding-left: 20px;
+        }
+
+        .content-box {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid #222;
+        }
+
+        h2 { color: #FFB347; margin-top: 30px; }
+
+        ul { padding-left: 20px; color: var(--text-dim); }
+        li { margin-bottom: 10px; }
+
+        .contact-cta {
+            margin-top: 50px;
+            padding: 30px;
+            background: linear-gradient(145deg, #1e1e1e, #121212);
+            border-radius: 15px;
+            text-align: center;
+            border: 1px dashed #444;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 30px;
+            background: var(--brand-gradient);
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #050505;
+            padding: 40px 20px;
+            margin-top: 80px;
+            border-top: 1px solid #222;
+            text-align: center;
+        }
+
+        .footer-copy { color: #444; font-size: 0.8rem; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="nav-logo">
+        <img src="logo.png" alt="RT"> 
+        <span>RTech Labs</span>
+    </a>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html" style="color: #FF8C00;">About</a>
+        <a href="#">Projects</a>
+        <a href="#">YouTube</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>About the Lab</h1>
+    <p class="lead">Bridging the gap between theory and hardware through hands-on electronics engineering.</p>
+
+    <div class="content-box">
+        <p>Welcome to <strong>RTech Labs</strong>. This platform was created as a hub for makers, students, and engineers who want to dive deep into the world of circuitry and code.</p>
+        
+        <h2>Our Mission</h2>
+        <p>At RTech Labs, we believe that complex technology should be accessible. We strip away the jargon to provide clear, high-quality documentation for modern engineering projects.</p>
+        
+        <h2>What We Explore</h2>
+        <ul>
+            <li><strong>Embedded Systems:</strong> Mastering microcontrollers like ESP32, Arduino, and STM32.</li>
+            <li><strong>Hardware Design:</strong> Teaching the process of schematic design and professional PCB layout.</li>
+            <li><strong>IoT & Robotics:</strong> Building connected systems that interact with the real world.</li>
+        </ul>
+
+        <div class="contact-cta">
+            <h3>Have a Question or Collaboration?</h3>
+            <p>I'm always open to discussing new projects or technical challenges.</p>
+            <a href="mailto:your-email@example.com" class="btn">Email the Lab</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>RTech Labs: Electronics | Projects | Tutorials</p>
+    <div class="footer-copy">
+        &copy; 2026 RTech Labs. All Rights Reserved.
+    </div>
+</footer>
+
+</body>
+</html>
