@@ -1,0 +1,206 @@
+---
+layout: default
+title: Rapid RF PCB Prototyping
+---
+
+<style>
+.pcb-pricing-section {
+  padding: 20px 0;
+  color: #e0e0e0;
+}
+.pcb-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.pcb-pricing-section h2 {
+  color: #ffffff;
+  margin-bottom: 5px;
+}
+.pcb-pricing-section .subtitle {
+  color: #a0a0a0;
+  margin-bottom: 25px;
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+@media (max-width: 768px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.service-details, .calculator-card {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 20px;
+}
+.service-details ul {
+  list-style-type: none;
+  padding: 0;
+}
+.service-details li {
+  padding: 8px 0;
+  border-bottom: 1px solid #2a2a2a;
+  font-size: 0.95rem;
+}
+.form-group {
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+}
+.form-group label {
+  font-size: 0.85rem;
+  margin-bottom: 5px;
+  color: #ccc;
+}
+.form-group input, .form-group select {
+  background: #121212;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 8px;
+  border-radius: 4px;
+}
+.price-display {
+  margin-top: 15px;
+  padding: 12px;
+  background: #282828;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.price-display strong {
+  font-size: 1.5rem;
+  color: #00e676;
+}
+.btn-submit {
+  width: 100%;
+  margin-top: 15px;
+  background: #ff6d00;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-submit:hover {
+  background: #e66200;
+}
+</style>
+
+<div class="pcb-pricing-section">
+  <div class="pcb-container">
+    <h2>Rapid RF PCB Prototyping</h2>
+    <p class="subtitle">Precision CNC-Milled Prototype Circuit Boards | Sub-THz & RF Ready (Bare Copper)</p>
+
+    <div class="pricing-grid">
+      <div class="service-details">
+        <h3>Specifications & Capabilities</h3>
+        <ul>
+          <li><strong>Substrates:</strong> Rogers RT/duroid 5880, RO4003C, FR4</li>
+          <li><strong>Min Trace / Space:</strong> 0.4 mm / 0.4 mm</li>
+          <li><strong>Machining Precision:</strong> Auto-probed contouring & isolation milling</li>
+          <li><strong>Finish:</strong> Bare copper (ideal for microwave & antenna research)</li>
+          <li><strong>Turnaround:</strong> Standard 48 Hours (24H Express available)</li>
+        </ul>
+      </div>
+
+      <div class="calculator-card">
+        <h3>Instant Price Estimator</h3>
+        <form id="pcb-calc-form">
+          <div class="form-group">
+            <label for="board-length">Board Length (mm):</label>
+            <input type="number" id="board-length" value="50" min="10" max="200">
+          </div>
+
+          <div class="form-group">
+            <label for="board-width">Board Width (mm):</label>
+            <input type="number" id="board-width" value="50" min="10" max="200">
+          </div>
+
+          <div class="form-group">
+            <label for="sides">Layer Type:</label>
+            <select id="sides">
+              <option value="single">Single-Sided</option>
+              <option value="double" selected>Double-Sided</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="material-option">Substrate Supply:</label>
+            <select id="material-option">
+              <option value="provided">Client Provides Material</option>
+              <option value="ro4003c">Shop stock: Rogers RO4003C</option>
+              <option value="rt5880">Shop stock: Rogers RT5880</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="turnaround">Turnaround Time:</label>
+            <select id="turnaround">
+              <option value="standard">Standard (48 Hours)</option>
+              <option value="express">Express 24H (+50% Labor)</option>
+            </select>
+          </div>
+
+          <div class="price-display">
+            <span>Estimated Total:</span>
+            <strong id="total-price">₹1,610</strong>
+          </div>
+
+          <button type="button" class="btn-submit" onclick="submitOrderQuery()">Submit Gerber Files for Verification</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('#pcb-calc-form input, #pcb-calc-form select').forEach(element => {
+  element.addEventListener('input', calculatePrice);
+});
+
+function calculatePrice() {
+  const length = parseFloat(document.getElementById('board-length').value) || 0;
+  const width = parseFloat(document.getElementById('board-width').value) || 0;
+  const sides = document.getElementById('sides').value;
+  const material = document.getElementById('material-option').value;
+  const turnaround = document.getElementById('turnaround').value;
+
+  let directLaborCost = 800 + 300 + 200 + 100;
+
+  if (sides === 'double') {
+    directLaborCost += 300;
+  }
+
+  let materialCost = 0;
+  if (material !== 'provided') {
+    const totalAreaCm2 = ((length + 10) * (width + 10)) / 100;
+    let ratePerCm2 = (material === 'rt5880') ? 14 : 12;
+    materialCost = totalAreaCm2 * ratePerCm2 * 1.20;
+  }
+
+  let subtotal = directLaborCost + materialCost;
+  let totalPrice = subtotal * 1.15;
+
+  if (turnaround === 'express') {
+    totalPrice += (directLaborCost * 0.50);
+  }
+
+  if (totalPrice < 1500) {
+    totalPrice = 1500;
+  }
+
+  document.getElementById('total-price').innerText = '₹' + Math.round(totalPrice).toLocaleString('en-IN');
+}
+
+function submitOrderQuery() {
+  const mailtoLink = "mailto:contact@rtechlabs.co.in?subject=PCB Prototyping Request&body=Hi RTech Labs team,%0D%0AI would like to submit my Gerber files for a custom PCB milling quote.";
+  window.location.href = mailtoLink;
+}
+
+calculatePrice();
+</script>
