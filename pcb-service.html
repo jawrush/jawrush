@@ -62,6 +62,11 @@ title: Rapid RF PCB Prototyping
   padding: 8px;
   border-radius: 4px;
 }
+.form-group input[type="file"] {
+  padding: 6px;
+  background: #181818;
+  cursor: pointer;
+}
 .price-display {
   margin-top: 15px;
   padding: 12px;
@@ -97,10 +102,12 @@ title: Rapid RF PCB Prototyping
     <p class="subtitle">Precision CNC-Milled Prototype Circuit Boards | Sub-THz & RF Ready (Bare Copper)</p>
 
     <div class="pricing-grid">
+      <!-- Capabilities -->
       <div class="service-details">
         <h3>Specifications & Capabilities</h3>
         <ul>
           <li><strong>Substrates:</strong> Rogers RT/duroid 5880, RO4003C, FR4</li>
+          <li><strong>Thickness Options:</strong> 0.254mm (10mil) to 1.524mm (60mil)</li>
           <li><strong>Min Trace / Space:</strong> 0.4 mm / 0.4 mm</li>
           <li><strong>Machining Precision:</strong> Auto-probed contouring & isolation milling</li>
           <li><strong>Finish:</strong> Bare copper (ideal for microwave & antenna research)</li>
@@ -108,6 +115,7 @@ title: Rapid RF PCB Prototyping
         </ul>
       </div>
 
+      <!-- Estimator & Form -->
       <div class="calculator-card">
         <h3>Instant Price Estimator</h3>
         <form id="pcb-calc-form">
@@ -130,11 +138,22 @@ title: Rapid RF PCB Prototyping
           </div>
 
           <div class="form-group">
-            <label for="material-option">Substrate Supply:</label>
+            <label for="material-option">Substrate Material:</label>
             <select id="material-option">
               <option value="provided">Client Provides Material</option>
-              <option value="ro4003c">Shop stock: Rogers RO4003C</option>
-              <option value="rt5880">Shop stock: Rogers RT5880</option>
+              <option value="fr4">FR4 Standard</option>
+              <option value="ro4003c">Rogers RO4003C (Ceramic Filled)</option>
+              <option value="rt5880">Rogers RT/duroid 5880 (PTFE Glass)</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="thickness-group" style="display: none;">
+            <label for="material-thickness">Substrate Thickness:</label>
+            <select id="material-thickness">
+              <option value="0.254">0.254 mm (10 mil)</option>
+              <option value="0.508" selected>0.508 mm (20 mil)</option>
+              <option value="0.787">0.787 mm (31 mil)</option>
+              <option value="1.524">1.524 mm (60 mil)</option>
             </select>
           </div>
 
@@ -146,12 +165,17 @@ title: Rapid RF PCB Prototyping
             </select>
           </div>
 
+          <div class="form-group">
+            <label for="gerber-file">Upload Gerber Archive (.ZIP):</label>
+            <input type="file" id="gerber-file" accept=".zip,.rar,.7z">
+          </div>
+
           <div class="price-display">
             <span>Estimated Total:</span>
             <strong id="total-price">₹1,610</strong>
           </div>
 
-          <button type="button" class="btn-submit" onclick="submitOrderQuery()">Submit Gerber Files for Verification</button>
+          <button type="button" class="btn-submit" onclick="submitOrderQuery()">Submit Quote Request</button>
         </form>
       </div>
     </div>
@@ -159,6 +183,7 @@ title: Rapid RF PCB Prototyping
 </div>
 
 <script>
+// Event listeners for recalculation and field toggling
 document.querySelectorAll('#pcb-calc-form input, #pcb-calc-form select').forEach(element => {
   element.addEventListener('input', calculatePrice);
 });
@@ -168,28 +193,52 @@ function calculatePrice() {
   const width = parseFloat(document.getElementById('board-width').value) || 0;
   const sides = document.getElementById('sides').value;
   const material = document.getElementById('material-option').value;
+  const thickness = parseFloat(document.getElementById('material-thickness').value) || 0.508;
   const turnaround = document.getElementById('turnaround').value;
+  const thicknessGroup = document.getElementById('thickness-group');
 
-  let directLaborCost = 800 + 300 + 200 + 100;
-
-  if (sides === 'double') {
-    directLaborCost += 300;
+  // Toggle thickness visibility
+  if (material === 'provided') {
+    thicknessGroup.style.display = 'none';
+  } else {
+    thicknessGroup.style.display = 'flex';
   }
 
+  // 1. Base Machine & Wear Overhead
+  let directLaborCost = 800 + 300 + 200 + 100; // Setup + Machining + Tool Wear + Consumables
+
+  if (sides === 'double') {
+    directLaborCost += 300; // Alignment & probing surcharge
+  }
+
+  // 2. Material Pricing Dynamic Calculation
   let materialCost = 0;
   if (material !== 'provided') {
     const totalAreaCm2 = ((length + 10) * (width + 10)) / 100;
-    let ratePerCm2 = (material === 'rt5880') ? 14 : 12;
-    materialCost = totalAreaCm2 * ratePerCm2 * 1.20;
+    
+    // Base rate per cm² (INR) depending on substrate
+    let baseRatePerCm2 = 3; // Default FR4
+    if (material === 'ro4003c') baseRatePerCm2 = 12;
+    if (material === 'rt5880') baseRatePerCm2 = 15;
+
+    // Thickness multiplier (thicker substrates cost slightly more per cm²)
+    let thicknessMultiplier = 1.0;
+    if (thickness === 0.787) thicknessMultiplier = 1.25;
+    if (thickness === 1.524) thicknessMultiplier = 1.50;
+
+    materialCost = totalAreaCm2 * (baseRatePerCm2 * thicknessMultiplier) * 1.20; // 20% margin
   }
 
+  // 3. Subtotal + Profit Margin (15%)
   let subtotal = directLaborCost + materialCost;
   let totalPrice = subtotal * 1.15;
 
+  // 4. Express Turnaround (+50% labor)
   if (turnaround === 'express') {
     totalPrice += (directLaborCost * 0.50);
   }
 
+  // Minimum Order Value (MOV)
   if (totalPrice < 1500) {
     totalPrice = 1500;
   }
@@ -198,9 +247,31 @@ function calculatePrice() {
 }
 
 function submitOrderQuery() {
-  const mailtoLink = "mailto:contact@rtechlabs.co.in?subject=PCB Prototyping Request&body=Hi RTech Labs team,%0D%0AI would like to submit my Gerber files for a custom PCB milling quote.";
-  window.location.href = mailtoLink;
+  const length = document.getElementById('board-length').value;
+  const width = document.getElementById('board-width').value;
+  const sides = document.getElementById('sides').value;
+  const material = document.getElementById('material-option').value;
+  const thickness = document.getElementById('material-thickness').value;
+  const price = document.getElementById('total-price').innerText;
+  const fileInput = document.getElementById('gerber-file');
+
+  let fileStatus = fileInput.files.length > 0 ? fileInput.files[0].name : "Not attached";
+
+  const subject = encodeURIComponent("PCB Prototyping Quote Request - RTech Labs");
+  const body = encodeURIComponent(
+    `Hi RTech Labs Team,\n\nI would like to request a Gerber review and quote confirmation for a PCB prototype:\n\n` +
+    `- Dimensions: ${length}mm x ${width}mm\n` +
+    `- Layer Configuration: ${sides}\n` +
+    `- Material: ${material}\n` +
+    `- Thickness: ${material === 'provided' ? 'N/A (Client Supplied)' : thickness + ' mm'}\n` +
+    `- Estimated Total: ${price}\n` +
+    `- Zip File Selected: ${fileStatus}\n\n` +
+    `Note: If your browser mail client didn't auto-attach the file, please attach your Gerber ZIP file directly to this email response.`
+  );
+
+  window.location.href = `mailto:contact@rtechlabs.co.in?subject=${subject}&body=${body}`;
 }
 
+// Initial Run
 calculatePrice();
 </script>
